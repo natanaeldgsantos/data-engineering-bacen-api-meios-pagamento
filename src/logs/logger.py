@@ -15,11 +15,13 @@ class LoggerManager(object):
         level: int = logging.INFO
     ):
         
+        self.logger = logging.getLogger(name)
+        self.logger.setLevel(level)
+        
         # Se já não existirem adicona/cria os Handlers
         if not self.logger.handlers:
 
-            self.logger = logging.getLogger(name)
-            self.logger.setLevel(level)
+            
 
             file_handler = RotatingFileHandler(
                         log_file, 
@@ -37,7 +39,7 @@ class LoggerManager(object):
                 "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
             )
 
-            file_handler.setFormater(formatter)
+            file_handler.setFormatter(formatter)
             console_handler.setFormatter(formatter)
 
             # Adicionar handlers ao logger
