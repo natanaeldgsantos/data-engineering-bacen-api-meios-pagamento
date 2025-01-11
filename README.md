@@ -51,20 +51,17 @@ referência: https://min.io/
 
 ##### **Exemplo de Estrutura de Diretórios na folder Landing do nosso Data Lake com MinIO**
 ```
-/bank-databr/
-  |── /bank-databr/
-        | landing/
-            
+├── /bank-databr/
+    ├── landing/
+        |── bacen/
+            ├── cartoes_trimestral/
+                └── data_11_01_2025_01_16_54.json
+            ├── meios_pagamentos_mensal/
+                └── data_11_01_2025_01_16_54.json
+            ├── meios_pagamentos_trimestral/
+                └── data_11_01_2025_01_16_54.json
 
-  ├── mensal/
-  │     ├── pix_2023_09.json
-  │     ├── ted_2023_09.json
-  │     └── boletos_2023_09.json
-  ├── trimestral/
-  │     ├── cartoes_2023_Q3.csv
-  │     └── convenios_2023_Q3.csv
 ```
-
 #### **3. Processamento e Transformação dos Dados**
 - Extraia os dados do MinIO para transformações:
   - Normalização dos campos (ex.: padronizar valores monetários).

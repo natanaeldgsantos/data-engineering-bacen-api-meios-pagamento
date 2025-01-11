@@ -36,7 +36,7 @@ resources = [
         "url": f"{base_url}/Quantidadeetransacoesdecartoes(trimestre=@trimestre)?%40trimestre='1'"
     },
     {
-        "name": "pagamentos_mensal",
+        "name": "meios_pagamentos_mensal",
         "url": f"{base_url}/MeiosdePagamentosMensalDA(AnoMes=@AnoMes)?%40AnoMes='{ano_mes}'"
     },
     {
