@@ -27,9 +27,13 @@ Este projeto demonstra habilidades essenciais para engenharia de dados utilizand
 Pela simplicidade, e também por questões de custos, vou usar soluções simples e open source, mas pretendo explorar recursos mais comerciais, como Cloud, em outras versões deste mesmo projeto ou em novos.
 
 ### **Objetivo**
-Desenvolver um pipeline de dados automatizado que consuma informações da API de Estatísticas de Meios de Pagamento do Banco Central, armazene os dados no MinIO como storage principal, e realize análises utilizando um Data Warehouse (vou usar o DuckDB mesmo). 
+Desenvolver um pipeline de dados automatizado que consome informações da API de Estatísticas de Meios de Pagamento do Banco Central, armazene os dados no MinIO como storage principal, e realize análises utilizando um Data Warehouse (vou usar o DuckDB mesmo). 
 
 O objetivo é identificar tendências no uso de diferentes meios de pagamento, como Pix, TED, boletos e cartões.
+
+### Pipeline de Dados para nosso Projeto
+
+![pipeline](./docs/img/pipeline.svg "Data Pipeline_ BCB - API Estatísticas de Pagamento")
 
 ---
 
