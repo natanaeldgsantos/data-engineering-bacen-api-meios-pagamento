@@ -76,7 +76,7 @@ for resource in resources:
         response_data,
         minio_client,
         bucket_name,
-        f"bacen/{resource.get('name')}/data_{now_timestamp}.json",
+        f"landing/bacen/{resource.get('name')}/data_{now_timestamp}.json",
         
     )
 

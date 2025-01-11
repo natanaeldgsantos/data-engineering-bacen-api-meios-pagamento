@@ -51,7 +51,11 @@ referência: https://min.io/
 
 ##### **Exemplo de Estrutura de Diretórios na folder Landing do nosso Data Lake com MinIO**
 ```
-/meios_pagamento/
+/bank-databr/
+  |── /bank-databr/
+        | landing/
+            
+
   ├── mensal/
   │     ├── pix_2023_09.json
   │     ├── ted_2023_09.json

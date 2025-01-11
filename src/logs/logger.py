@@ -36,7 +36,7 @@ class LoggerManager(object):
             console_handler.setLevel(level)
 
             formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+                "%(asctime)s - %(filename)s - %(levelname)s - %(message)s"
             )
 
             file_handler.setFormatter(formatter)
