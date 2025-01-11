@@ -6,7 +6,7 @@ Questão super em alta neste momento (janeiro de 2025)
 
 Olá me chamo Natanael Domingos, e decidi iniciar uma série de projetos de Engenheria de dados como forma de compartilhar conhecimento e construir um portfólio.
 
-A alguns dias me deparei com a API de Pagamentos mantida pelo Banco Central do Brasil, que contem statístias sobre~:
+A alguns dias me deparei com a API de Pagamentos mantida pelo Banco Central do Brasil, que contem statísticas sobre:
 - Diferentes **tipos** de pagamento no país
 - A quantidade de transações realizadas por cada tipo
 - O total de valores movimentados por tipo, consolidado por mês ou trimestre.
@@ -21,6 +21,8 @@ Tenho certeza que este case será um bom exemplo, ilustrando bem o que acontece 
 
 Este projeto demonstra habilidades essenciais para engenharia de dados utilizando tecnologias modernas como MinIO e ferramentas open source, além de abordar um tema relevante e atual na economia brasileira.
 
+Pela simplicidade e por questões de custos vou usar na maioria dos casos soluções simples e open source, mas pretendo explorar recursos mais comerciais, como Cloud, em outras versões deste mesmo projeto ou em novos.
+
 ### **Objetivo**
 Desenvolver um pipeline de dados automatizado que consuma informações da API de Estatísticas de Meios de Pagamento do Banco Central, armazene os dados no MinIO como storage principal, e realize análises utilizando um Data Warehouse (vou usar o DuckDB mesmo). 
 
@@ -30,9 +32,9 @@ O objetivo é identificar tendências no uso de diferentes meios de pagamento, c
 
 ### **Etapas do Projeto**
 
-#### **1. Coleta de Dados**
+#### **1. Coleta e Armazenamento dos Dados **
 - Utilize a API do Banco Central para acessar dados mensais e trimestrais sobre meios de pagamento.
-- Configure chamadas automáticas para os endpoints da API usando Python (vou aproveitar para usar o pacote Python DLT).
+- Realizar Ingestão dos dados na fonte (vou aproveitar para usar Python DLT, mas poderia ser uma ferramenta de ingestão como Nifi ou Airbyte).
 - Salve os dados coletados em formato JSON ou CSV no MinIO, que será usado como camada de armazenamento principal.
   - Vamos simular uma arquitetura medalhão no MiniIO, vou criar o bucket principal com a seguintes folders:
     - Landing: armazenar os dados no formato original, no caso JSON
@@ -52,7 +54,7 @@ O objetivo é identificar tendências no uso de diferentes meios de pagamento, c
   │     └── convenios_2023_Q3.csv
 ```
 
-#### **3. Processamento e Transformação**
+#### **3. Processamento e Transformação dos Dados**
 - Extraia os dados do MinIO para transformações:
   - Normalização dos campos (ex.: padronizar valores monetários).
   - Tratamento de valores ausentes ou inconsistentes.
