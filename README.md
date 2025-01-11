@@ -32,15 +32,22 @@ O objetivo é identificar tendências no uso de diferentes meios de pagamento, c
 
 ### **Etapas do Projeto**
 
-#### **1. Coleta e Armazenamento dos Dados **
-- Utilize a API do Banco Central para acessar dados mensais e trimestrais sobre meios de pagamento.
-- Realizar Ingestão dos dados na fonte (vou aproveitar para usar Python DLT, mas poderia ser uma ferramenta de ingestão como Nifi ou Airbyte).
-- Salve os dados coletados em formato JSON ou CSV no MinIO, que será usado como camada de armazenamento principal.
+#### **1. Coleta e Armazenamento dos Dados**
+
+Neste etapa vamos:
+
+- Utilizar a API do BCB para acessar dados mensais e trimestreai sobre meios de Pagamento.
+- Realizar a Ingestão da fonte de dados, vou aproveitar para usar Python DLT, mas poderia ser uma ferramenta de ingestão como Nifi ou Airbyte.
+- Salve os dados coletados em formato JSON no MinIO, que será usado como camada de armazenamento principal.
   - Vamos simular uma arquitetura medalhão no MiniIO, vou criar o bucket principal com a seguintes folders:
     - Landing: armazenar os dados no formato original, no caso JSON
     - Bronze: dados ainda sem normalização mas já em um formato comun, vamos usar **tabelas Delta**.
     - Silver: Dados já normalizados e pré-processados, uma primeira camada confiável para o consumo.
     - Gold: Dados especializados com o olhar/regras do negócio, já agregados em especial para uso do BI
+
+O MiniIO é uma excelente opção de storage, além de fácil configuração é super perfomática, vou usar um **Container Docker** para subir este recurso.
+
+referência: https://min.io/
 
 ##### **Exemplo de Estrutura de Diretórios na folder Landing do nosso Data Lake com MinIO**
 ```

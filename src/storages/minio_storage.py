@@ -50,6 +50,8 @@ def upload_file_to_bucket(
     
     """ Verifica arquivo informado e realiza upload para buckload de destino """
 
+    logger.info(f'Carregando arquivo: \n\t* bucket: {bucket_name} \n\t* destionation: {destination_file_path_in_bucket},')
+
     data_bytes = BytesIO(str(data).encode('utf-8'))
 
     minio_client.put_object(
