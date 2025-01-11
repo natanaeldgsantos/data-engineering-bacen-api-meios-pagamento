@@ -1,4 +1,7 @@
+version: "3.8"
+
 services:
+
   minio:
     image: minio/minio
     container_name: minio
@@ -11,6 +14,46 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+  
+  spark-master:
+    image: bitnami/spark:latest
+    container_name: spark-master
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - "7077:7077" # Porta para comunicação com os Workers
+      - "8088:8088" # Web UI do Spark Master
+    
+
+  spark-worker:
+    image: bitnami/spark:latest
+    container_name: spark-worker
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    depends_on:
+      - spark-master
+    ports:
+      - "8089:8089" # Web UI do dos Workers
+
+  jupyter-notebook:
+    image: jupyter/all-spark-notebook:latest
+    container_name: jupyter-notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/bacen/notebooks # Monta a pasta local para salvar notebooks
+    environment:
+      - JUPYTER_ENABLE_LAB=yes # Habilita o Jupyter Lab
+      - SPARK_MASTER=spark://spark-master:7077
+    depends_on:
+      - spark-master
+    # Vamos adicionar algumas libs para integraçaõ entre o spark e storage do MinIO
+    command: >
+      start-notebook.sh &&
+      pip install pyspark &&
+      wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar &&
+      wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.524/aws-java-sdk-bundle-1.12.524.jar
 
 
 volumes:

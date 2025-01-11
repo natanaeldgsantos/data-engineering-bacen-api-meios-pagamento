@@ -1,4 +1,4 @@
-""" Processo de Ingesta para camada Raw da API De Pagamento do Banco Central """
+""" Processo de Ingesta para camada Raw/Landing da API De Pagamento do Banco Central """
 
 import json
 import requests
