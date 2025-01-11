@@ -11,6 +11,9 @@ A alguns dias me deparei com a API de Pagamentos mantida pelo Banco Central do B
 - A quantidade de transações realizadas por cada tipo
 - O total de valores movimentados por tipo, consolidado por mês ou trimestre.
 
+Documentação e referência da API:
+- https://dadosabertos.bcb.gov.br/dataset/estatisticas-meios-pagamentos
+
 Vou usar este recurso como fonte de dados para o nosso projeto de portfólio. A intensão será desenvolver um novo pipeline de dados e depois realizar algumas análises. 
 
 Tenho certeza que este case será um bom exemplo, ilustrando bem o que acontece no dia a dia de um Engenheiro de dados que tem com responsabilidades: 
