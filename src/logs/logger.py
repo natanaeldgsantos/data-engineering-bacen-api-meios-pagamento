@@ -1,4 +1,4 @@
-""" Configurações de Gerador de Logs Globa para o projeto """
+""" Configurações de Gerador de Logs Global para o projeto """
 
 
 import logging
