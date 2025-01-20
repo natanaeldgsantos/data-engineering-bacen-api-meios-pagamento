@@ -1,24 +1,34 @@
-## **Projeto: Pipeline de Dados e Análise dos Meios de Pagamento no Brasil**
+## **Pipeline de Dados e Análise dos Meios de Pagamento no Brasil**
 
 **Será que a mudança no monitoramento do PIX vai reduzir a demanda?**
 
-Olá me chamo Natanael Domingos, e decidi iniciar uma série de projetos de Engenheria de dados como forma de compartilhar conhecimento e construir um portfólio.
+Olá, me chamo Natanael Domingos seja bem vindo a mais um projeto de portólio em Engenharia de Dados.
 
-A alguns dias me deparei com a API de Pagamentos, mantida pelo Banco Central do Brasil, que contêm estatísticas sobre:
-- Diferentes **tipos** de pagamento no país
-- A quantidade de transações realizadas por cada tipo
-- O total de valores movimentados por tipo, consolidado por mês ou trimestre.
+A alguns dias me deparei com a API de Pagamentos do Banco Central do Brasil, que retornar informações e estatísticaqs sobre:
+- Diferentes **tipos** de pagamentos no país.
+- A **quantidade** de transações realizadas por cada tipo.
+- O **total de valores** movimentados consolidados por tipo, mês ou trimestre.
 
-Documentação e Referência da API:
+Segue a documentação de referência desta API:
 - https://dadosabertos.bcb.gov.br/dataset/estatisticas-meios-pagamentos
 
-Vou usar este recurso como fonte de dados para este projeto de portfólio. A intensão será desenvolver um novo pipeline de dados e depois realizar algumas análises. 
 
-Tenho certeza que este será um bom exemplo para ilustrar o que acontece no dia a dia de um Engenheiro de dados. Meu objetivo será demonstrar habilidades essenciais para engenharia de dados utilizando tecnologias modernas como MinIO e ferramentas open source, além de abordar um tema relevante e atual na economia brasileira.
+Decide utilizar este recurso como fontes de dados para este projeto, a minha intenção é desenvolver um novo **pipeline de dados** e depois realizar algumas análises. 
 
-Pela simplicidade, e também por questões de custos, vou usar soluções simples e open source neste projeto, todavia pretendo explorar recursos mais comerciais, como Cloud, em outras versões deste mesmo projeto ou em novos projetos.
+Acredito que este será um bom exemplo para ilustrar situações do dia a dia de um Engenheiro de dados. 
 
-### **Objetivo**
+Neste projeto vamos construir um ambiente distribuido do zero utilizando:
+
+- Docker para levantar o ambiente local, algo que seja reproduzivel.
+- MinIO, como nosso storage ou Delta Lakehouse
+- PySpark para processamento dos dados
+- Python e diversas bibliotecas open source para desenvolvimento.
+
+Com isso, podemos criar um ambiente prático, open-source e  reutilizável para um projeto que aborda um assunto atual e relevante para a economia brasileira.
+
+Por motivo de simplicidade e questão de custos, optei por utilizar um ambiente open-source, todavia pretendo explorar recursos também comerciais, como de Cloud, em outras versões deste mesmo projeto, no futuro. Aguarde!
+
+### **Objetivo Principal**
 Desenvolver um pipeline de dados automatizado para:
 01. Consumir informações da API de Estatísticas de Meios de Pagamento do Banco Central.
 02. Armazenar os dados em um Data Lake.
@@ -78,64 +88,57 @@ Referência: https://min.io/
                       └── 01
                         └── 12
                           └── data_12_01_2025_01_16_54.json
-
 ```
+
+A concretização desta etapa poderá ser encontrada dentro do caminho a seguir, na estrutura de arquivos do projeto:
+
+  **``` src > ingestions > ingestion_meios_pagamento.py ```**
+
 #### **3. Processamento e Transformação dos Dados**
 
-Como solução de armazenamento teremos um Data Lake no MinIO, aplicando a arquitetura Medalhão com uma adição, a folder Landing, a seguir explicarei cada parte.
+Como solução de armazenamento vamos usar o MinIO, a escolha se deu dado a sua simplicidade, alto poder e performance, além de ser open e facilmente configurável via Container Docker.
+
+Para processamento distribuido dos dados entre as camadas do nosso Delta Lake vamos usar o Spark. 
+
+Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mais uma camada, a Landing. A seguir explicarei cada parte.
 
   - **Camada Landing(Área de pouso para alguns casos, Histórico As-Is em outros Casos)**
-    - Optei por adicionar a folder Landing, para pouso e gravação de dados no seu formato original, exatamente como foram recebidos das fontes. Para alguns cenários esta inclusão pode ser útils, para outros cenários, em algumas empresas pode algo redundante e só aumentar os custos. Mas a minha ideia é já aplicar um formato padronizado (Delta) a partir da Bronze.
+    - Optei por adicionar a camada Landing em nosso projeto para realização do pouso e gravação dos dados no seu formato original, exatamente como foram recebidos das fontes. Para alguns cenários, em algumas empresas, a Landing pode ser algo redundante e só aumentar os custos, entretanto, neste projeto, decidi implementá-la visando aplicar um formato padronizado (Delta) já à partir da camada Bronze.
 
   - **Camada Bronze(Dados Brutos)**
-    - Mantendo ainda os dados como no original "as-is" a ideia aqui é aplicar somente um formato otimizado e padronizado (Delta)
-    - É claro que já ocorre alguma tratativa, como explodir listar ou objetos do arquivo JSON original para a tabela final Delta, mas nada que filtre ou altere os dados.
+    - Mantendo ainda os dados como no original "as-is" a ideia aqui é aplicar somente um formato otimizado e padronizado (Delta)    
+    - Vamos adicionar campos de metadados, como referência a origem entre outras.
+    - Oferecer os dados como Delta, ainda na camada Bronze é ideal para:
+      - Otimiza o trabalho de quem for consumir, não precisando ter tecnologias diferentes para diferentes formatos, como CSV, JSON, outros.
+      - Otimiza o consumo ou leitura de dados ainda na origem, já que Delta é muito mais performático do que qualquer outro formato simples.
   
   - **Camada Silver(Dados Refinados)**
+    - Vamos definir um Schema, já explodindo listas e objetos arquivo JSON original para a tabela final Delta.
     - Vamos realizar a limpeza, eliminação e validação de valores duplicados
+    - Quando aplicável vamos criar novas variáveis.
+    - Normalização dos campos (ex.: padronizar valores monetários).
+    - Tratamento de missing/empty values ou valores inconsistentes, fora do esperado.
 
-  - **Camada Silver(Dados Curados)**
-
-Como solução para processamento dentro do Data Lake, entre as camas da arquitetura medalhão, vou usar o Spark.
-
-
-
-
-
-
-    - Na arquitetura medalhão geralmente começamos a partir da Bronze, armazenando neste folder os dados em variós formatos, "as-is" com o Sistema origem.
-    - Tomei esta decisão levando em consideração, resumidamente, alguns pontos:
-      - Usuário deveria consumir dados diretamente da Bronze? por definição não, uma primeira camada de dados tratados e confiáveis deveriam ser consumidas a partir da Silver, mas nada neste mundo esta *escrito na pedra*. E seu alguma esquipe de Machine Learning, IA developers, quiser ter acesso ao dado bruto, em seu formato original, sem ter passado por nenhuma normalização ou padronização que possa ter desbalanceado ou enviezado sua amostra de dados, para o treinamento de seu modelo?
-      - Neste casos seria mais prático ter estes dados a disposição na Bronze já em um formato otimizado e performático (Delta e.g), claro, com alguma tratativa mas sem nenhuma normalização.
-      - Imagine outro cenário onde a empresa já tem um ambiente OnPrem e esta migrando para a Cloud, ou seja estas bases na origem já tem uma estrutura mínima, como Parquet, estas poderiam vir diretamente para a Bronze, em um processo de ingesta, mas talvez outras fontes, com formatos diferentes devam pousar primeiramente na landing para em seguida, convertendendo para um formato otimizado ser carregado na bronze. 
-    - T
-    - Normalização e tratamento dos Dados para carregamento e disponibilização na camada Silver.
-      - 
-  - Da Silver para a Gold
-  
-  - Extração dos Dados no formato original da folder Landing
-  - Normalização dos campos (ex.: padronizar valores monetários).
-  - Tratamento de valores ausentes ou inconsistentes.
-  - Conversão para formatos otimizados (ex.: Parquet, Delta) para carregamento eficiente no data warehouse.
-- Use frameworks como Pandas ou Apache Spark para processar os dados.
+  - **Camada Gold(Dados Curados)**
+    - Aqui vamos otimizar, agrupando ou ajustando segundo regras de negócio.
+    - O objetivo será otimizar os dados para a geração de relatórios, visualizações ou usuários finais.
 
 #### **4. Carregamento no Data Warehouse Open Source**
-- Escolha um data warehouse open source adequado:
-  - **DuckDB**: Alternativa leve para análises locais ou em pequenos clusters.
-- Configure a ingestão dos arquivos transformados do MinIO diretamente no data warehouse escolhido.
+
+- Simulando um DataWarehouse ou engine de processamento SQL vou usar o **DuckDB**.
+- Esta é uma alternativa leve extremamente poderosa para análises e processamento analytico local.
 
 #### **5. Análise e Visualização**
-- Realize análises exploratórias e crie relatórios:
+- Vou realizar algumas análises exploratórias e criar visualizções sobre:
   - Comparação entre o crescimento do Pix e a redução do uso de TED/DOC.
   - Impacto sazonal nos pagamentos com cartões.
   - Correlação entre volume transacionado e número de transações por tipo de pagamento.
-- Conecte ferramentas como Metabase (open source) ou Superset ao data warehouse para criar dashboards interativos.
+  - Para realização das análises e criação das visualizações vou usar Notebook Python e Plotly.
 
 #### **6. Monitoramento e Automação**
 - Use o Apache Airflow para orquestrar todo o pipeline, desde a coleta na API até o carregamento no data warehouse.
 - Configure alertas para monitorar falhas no pipeline ou atrasos na atualização dos dados.
 
----
 
 ### **Ferramentas Utilizadas**
 1. **Armazenamento**: MinIO (compatível com S3).
@@ -144,7 +147,6 @@ Como solução para processamento dentro do Data Lake, entre as camas da arquite
 4. **Orquestração**: Apache Airflow.
 5. **Visualização**: Para simplificar vamos usar um Notebook Python mesmo com Plotly, vai ficar bem simples e legal no final
 
----
 
 ### **Resultados Esperados**
 - Um pipeline automatizado que coleta, processa e analisa dados sobre meios de pagamento no Brasil.
@@ -153,5 +155,4 @@ Como solução para processamento dentro do Data Lake, entre as camas da arquite
   - Tendências sazonais no uso de cartões pré-pagos versus crédito/débito.
 - Dashboards interativos acessíveis via Metabase/Superset conectados ao data warehouse.
 
----
 
