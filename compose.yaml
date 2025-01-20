@@ -1,24 +1,48 @@
 services:
-
   minio:
     image: minio/minio
     container_name: minio
+    hostname: minio
     ports:
       - "9000:9000"
       - "9001:9001"
-    volumes:
-      - ./data:/data    
     environment:
       MINIO_ROOT_USER: developer
       MINIO_ROOT_PASSWORD: developer01
     command: server /data --console-address ":9001"
+    networks:
+      - lake
 
-  
-  jupyter:
-    container_name: workspace
-    build: ./images/workspace # Imagem configurada de jupyter/pyspark-notebook    
-    ports: 
-      - "8888:8888"
+  spark-driver:
+    build: ./images/deltalake-minio
+    image: spark-generic
+    container_name: spark-driver
+    ports:
+      - "4040:4040"
+      - "6066:6066"
+      - "7077:7077"
+      - "8080:8080"
+      - "8888:8888" # Jupyter
     volumes:
-      - ./notebooks:/home/jovyan/work # Para mapear notebooks para pasta local
-    
+      - ./notebooks:/root/.jupyter/workspace/notebooks
+    networks:
+      - lake
+
+
+  spark-worker-01:
+    image: spark-generic
+    container_name: spark-worker-01
+    ports:
+      - "8081:8081"
+    depends_on:
+      - spark-driver
+    environment:
+      - SPARK_WORKER_CORES=4
+      - SPARK_WORKER_MEMORY=2G
+      - SPARK_WORKLOAD=worker
+    networks:
+      - lake
+
+networks:
+  lake:
+
