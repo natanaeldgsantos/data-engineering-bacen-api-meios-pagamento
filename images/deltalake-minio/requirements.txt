@@ -6,3 +6,4 @@ boto3
 catppuccin-jupyterlab
 py4j
 pyarrow
+great_expectations
