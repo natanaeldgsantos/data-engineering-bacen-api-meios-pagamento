@@ -105,6 +105,10 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
   - **Camada Landing(Área de pouso para alguns casos, Histórico As-Is em outros Casos)**
     - Optei por adicionar a camada Landing em nosso projeto para realização do pouso e gravação dos dados no seu formato original, exatamente como foram recebidos das fontes. Para alguns cenários, em algumas empresas, a Landing pode ser algo redundante e só aumentar os custos, entretanto, neste projeto, decidi implementá-la visando aplicar um formato padronizado (Delta) já à partir da camada Bronze.
 
+    todo o fluxo de ingestão da landing para a Bronze pode ser acompanhado no notebook no seguinte caminho:
+    
+    **``` notebooks > landing2bronze.ipynb```**
+
   - **Camada Bronze(Dados Brutos)**
     - Mantendo ainda os dados como no original "as-is" a ideia aqui é aplicar somente um formato otimizado e padronizado (Delta)    
     - Vamos adicionar campos de metadados, como referência a origem entre outras.
