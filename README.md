@@ -92,7 +92,7 @@ Referência: https://min.io/
 
 A concretização desta etapa poderá ser encontrada dentro do caminho a seguir, na estrutura de arquivos do projeto:
 
-  [**``` src > ingestions > ingestion_meios_pagamento.py ```**](./src/ingestions/ingestion_meios_pagamento.py){:target="_blank"}
+  <a href="./src/ingestions/ingestion_meios_pagamento.py" target="_blank">**``` src > ingestions > ingestion_meios_pagamento.py ```**</a>
 
 #### **3. Processamento e Transformação dos Dados**
 
@@ -107,7 +107,8 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
 
     todo o fluxo de ingestão da landing para a Bronze pode ser acompanhado no notebook no seguinte caminho:
     
-    [**``` notebooks > landing2bronze.ipynb```**](./notebooks/landing2bronze.ipynb)
+    <a href="./notebooks/landing2bronze.ipynb" target="_blank">**``` notebooks > landing2bronze.ipynb```**</a>
+   
 
   - **Camada Bronze(Dados Brutos)**
     - Mantendo ainda os dados como no original "as-is" a ideia aqui é aplicar somente um formato otimizado e padronizado (Delta)    
