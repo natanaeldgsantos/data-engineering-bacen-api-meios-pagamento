@@ -54,8 +54,11 @@ Para este projeto vou usar uma imagem personalizada do Docker, feita sobre medid
 - Bibliotecas de integração com AWS e storage como MinIO
 - Jupyter Lab, assim como alguns templates de melhor design para trabalhar com Jupyter.
 
-Para não deixar este projeto muito longo, estou separando o local desta imagem em outro projeto no meu reposítorio, visto que esta imagem
-poderá ser utilizada para qualquer outro projeto que precise de Spark e um Data Lakehouse.
+
+Você vai poder encontrar as imagens Docker utilizadas para subir este ambiente localmente no caminho a seguir:
+- Docker Compose: <a href="./compose.yaml" target="_blank">**```./compose.yaml ```**</a>
+- Imagens Docker: <a href="./images/deltalake-minio/" target="_blank">**```./images/deltalake-minio```**</a>
+
 
 #### **01. Coleta e Armazenamento dos Dados**
 
@@ -105,9 +108,9 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
   - **Camada Landing(Área de pouso para alguns casos, Histórico As-Is em outros Casos)**
     - Optei por adicionar a camada Landing em nosso projeto para realização do pouso e gravação dos dados no seu formato original, exatamente como foram recebidos das fontes. Para alguns cenários, em algumas empresas, a Landing pode ser algo redundante e só aumentar os custos, entretanto, neste projeto, decidi implementá-la visando aplicar um formato padronizado (Delta) já à partir da camada Bronze.
 
-    todo o fluxo de ingestão da landing para a Bronze pode ser acompanhado no notebook no seguinte caminho:
+    todo o fluxo de ingestão da API do Banco central para camada landing pode ser acompanhado no seguinte script:
     
-    <a href="./notebooks/landing2bronze.ipynb" target="_blank">**``` notebooks > landing2bronze.ipynb```**</a>
+    <a href="./src/ingestions/ingestion_meios_pagamento.py" target="_blank">**```./src/ingestions/ingestion_meios_pagamento.py```**</a>    
    
 
   - **Camada Bronze(Dados Brutos)**
@@ -116,6 +119,10 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
     - Oferecer os dados como Delta, ainda na camada Bronze é ideal para:
       - Otimiza o trabalho de quem for consumir, não precisando ter tecnologias diferentes para diferentes formatos, como CSV, JSON, outros.
       - Otimiza o consumo ou leitura de dados ainda na origem, já que Delta é muito mais performático do que qualquer outro formato simples.
+
+    Todo o fluxo de ingestão da landing para a Bronze pode ser acompanhado no notebook no seguinte caminho:
+    
+    <a href="./notebooks/landing2bronze.ipynb" target="_blank">**```./notebooks/landing2bronze.ipynb```**</a>
   
   - **Camada Silver(Dados Refinados)**
     - Vamos definir um Schema, já explodindo listas e objetos arquivo JSON original para a tabela final Delta.
@@ -124,9 +131,17 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
     - Normalização dos campos (ex.: padronizar valores monetários).
     - Tratamento de missing/empty values ou valores inconsistentes, fora do esperado.
 
+    Todo o fluxo de ingestão da Bronze para Silver pode ser acompanhado no notebook no seguinte caminho:
+    
+    <a href="./notebooks/bronze2silver.ipynb" target="_blank">**```./notebooks/bronze2silver.ipynb```**</a>
+
   - **Camada Gold(Dados Curados)**
     - Aqui vamos otimizar, agrupando ou ajustando segundo regras de negócio.
     - O objetivo será otimizar os dados para a geração de relatórios, visualizações ou usuários finais.
+
+    Todo o fluxo de ingestão da Bronze para Silver pode ser acompanhado no notebook no seguinte caminho:
+
+    <a href="./notebooks/silver2gold.ipynb" target="_blank">**```./notebooks/silver2gold.ipynb```**</a>
 
 #### **4. Carregamento no Data Warehouse Open Source**
 
