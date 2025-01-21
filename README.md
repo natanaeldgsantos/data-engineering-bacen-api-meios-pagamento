@@ -92,7 +92,7 @@ Referência: https://min.io/
 
 A concretização desta etapa poderá ser encontrada dentro do caminho a seguir, na estrutura de arquivos do projeto:
 
-  [**``` src > ingestions > ingestion_meios_pagamento.py ```**](./src/ingestions/ingestion_meios_pagamento.py)
+  [**``` src > ingestions > ingestion_meios_pagamento.py ```**](./src/ingestions/ingestion_meios_pagamento.py){:target="_blank"}
 
 #### **3. Processamento e Transformação dos Dados**
 
