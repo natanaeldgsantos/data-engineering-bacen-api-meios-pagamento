@@ -7,3 +7,4 @@ catppuccin-jupyterlab
 py4j
 pyarrow
 great_expectations
+pydeequ

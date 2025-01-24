@@ -4,16 +4,16 @@
 
 Olá, me chamo Natanael Domingos seja bem vindo a mais um projeto de portólio em Engenharia de Dados.
 
-A alguns dias me deparei com a API de Pagamentos do Banco Central do Brasil, que retornar informações e estatísticaqs sobre:
+A alguns dias me deparei com a API de Pagamentos do Banco Central do Brasil, esta api retorna informações e estatísticaqs sobre:
 - Diferentes **tipos** de pagamentos no país.
-- A **quantidade** de transações realizadas por cada tipo.
-- O **total de valores** movimentados consolidados por tipo, mês ou trimestre.
+- A **Quantidade** de transações realizadas por cada tipo de pagamento.
+- O **Total de valores** movimentados consolidados por tipo de pagamento, mês ou trimestre.
 
 Segue a documentação de referência desta API:
 - https://dadosabertos.bcb.gov.br/dataset/estatisticas-meios-pagamentos
 
 
-Decide utilizar este recurso como fontes de dados para este projeto, a minha intenção é desenvolver um novo **pipeline de dados** e depois realizar algumas análises. 
+Decide utilizar este recurso como fonte de dados para este projeto, a minha intenção é desenvolver um novo **pipeline de dados** e depois realizar algumas análises. 
 
 Acredito que este será um bom exemplo para ilustrar situações do dia a dia de um Engenheiro de dados. 
 
@@ -24,15 +24,15 @@ Neste projeto vamos construir um ambiente distribuido do zero utilizando:
 - PySpark para processamento dos dados
 - Python e diversas bibliotecas open source para desenvolvimento.
 
-Com isso, podemos criar um ambiente prático, open-source e  reutilizável para um projeto que aborda um assunto atual e relevante para a economia brasileira.
+Com isso, poderemos criar um ambiente prático, open-source e reutilizável para um projeto que aborda um assunto atual e relevante para a economia brasileira.
 
-Por motivo de simplicidade e questão de custos, optei por utilizar um ambiente open-source, todavia pretendo explorar recursos também comerciais, como de Cloud, em outras versões deste mesmo projeto, no futuro. Aguarde!
+Por motivo de simplicidade e controle de custos optei por utilizar um ambiente open-source, todavia, no futuro, pretendo explorar recursos de Cloud em outras versões deste mesmo projeto. Aguarde!
 
 ### **Objetivo Principal**
 Desenvolver um pipeline de dados automatizado para:
 01. Consumir informações da API de Estatísticas de Meios de Pagamento do Banco Central.
 02. Armazenar os dados em um Data Lake.
-03. Processar, Normalizar e Disponbilizar os dados em um formato otimizado dentro de uma camada de consumo do nosso Data Lake com arquitetura Medalhão.
+03. Processar, Normalizar e disponbilizar os dados em um formato otimizado dentro de uma camada de consumo do nosso Data Lake com arquitetura Medalhão.
 04. Realizar o Consumo destas informações, já normalizadas e especializadas para o Négócio, realizando análises em um Data Warehouse ou SQL Engine.
 05. Explorar o Conjunto de dados, realizando análises e criando Dashboards para tomada de decisão.
 
@@ -40,7 +40,7 @@ Enfim, como objetivo final pretendo identificar tendências no uso de diferentes
 
 ### Pipeline de Dados para nosso Projeto
 
-![pipeline](./docs/img/pipeline.svg "Data Pipeline_ BCB - API Estatísticas de Pagamento")
+![pipeline](./docs/img/pipeline02.svg "Data Pipeline_ BCB - API Estatísticas de Pagamento")
 
 ---
 
@@ -48,7 +48,7 @@ Enfim, como objetivo final pretendo identificar tendências no uso de diferentes
 
 #### **Configuração do Ambiente Local de Desenvolvimento**
 
-Para este projeto vou usar uma imagem personalizada do Docker, feita sobre medida para ser a mais prática e leve possível para subir um ambiente com:
+Para este projeto vou usar uma imagem personalizada do Docker com Docker-Compose, subindo um ambiente local mais prático e leve possível com:
 - Spark (PySpark) versão 3.5.*
 - Delta Lake
 - Bibliotecas de integração com AWS e storage como MinIO
@@ -64,7 +64,7 @@ Você vai poder encontrar as imagens Docker utilizadas para subir este ambiente 
 
 Neste etapa vamos:
 
-- Acessar a API do BCB para coletar dados mensais e trimestrais contendo Estatísticas sobre Meios de Pagamentos no Brasil.
+- Acessar a API do Bacen para coletar dados mensais e trimestrais contendo Estatísticas sobre Meios de Pagamentos no Brasil.
 - Realizar a Ingestão da fonte de dados. 
   - Aqui vou aproveitar para usar **Python DLT**, mas poderia ser uma ferramenta de ingestão como **Nifi** ou **Airbyte**, ou algo proprietário como **Data Factory** ou **Glue**.
 - Salvar os dados coletados em seu formato original (JSON) dentro da folder Landing no nosso Data Lake:
@@ -106,9 +106,9 @@ Para processamento distribuido dos dados entre as camadas do nosso Delta Lake va
 Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mais uma camada, a Landing. A seguir explicarei cada parte.
 
   - **Camada Landing(Área de pouso para alguns casos, Histórico As-Is em outros Casos)**
-    - Optei por adicionar a camada Landing em nosso projeto para realização do pouso e gravação dos dados no seu formato original, exatamente como foram recebidos das fontes. Para alguns cenários, em algumas empresas, a Landing pode ser algo redundante e só aumentar os custos, entretanto, neste projeto, decidi implementá-la visando aplicar um formato padronizado (Delta) já à partir da camada Bronze.
+    - Optei por adicionar a camada Landing em nosso projeto para realização do pouso e gravação dos dados no seu formato original ('as-is'), exatamente como foram recebidos das fontes. Para alguns cenários, em algumas empresas, a Landing pode ser algo redundante e só aumentar os custos, entretanto, neste projeto, decidi implementá-la visando aplicar um formato padronizado (Delta) já à partir da camada Bronze.
 
-    todo o fluxo de ingestão da API do Banco central para camada landing pode ser acompanhado no seguinte script:
+    Todo o fluxo de ingestão da API do Banco central para camada landing pode ser acompanhado no seguinte script:
     
     <a href="./src/ingestions/ingestion_meios_pagamento.py" target="_blank">**```./src/ingestions/ingestion_meios_pagamento.py```**</a>    
    
@@ -144,7 +144,6 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
     <a href="./notebooks/silver2gold.ipynb" target="_blank">**```./notebooks/silver2gold.ipynb```**</a>
 
 #### **4. Carregamento no Data Warehouse Open Source**
-
 - Simulando um DataWarehouse ou engine de processamento SQL vou usar o **DuckDB**.
 - Esta é uma alternativa leve extremamente poderosa para análises e processamento analytico local.
 
@@ -152,12 +151,12 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
 - Vou realizar algumas análises exploratórias e criar visualizções sobre:
   - Comparação entre o crescimento do Pix e a redução do uso de TED/DOC.
   - Impacto sazonal nos pagamentos com cartões.
-  - Correlação entre volume transacionado e número de transações por tipo de pagamento.
+  - Correlação entre volume o transacionado por tipo de pagamento.
   - Para realização das análises e criação das visualizações vou usar Notebook Python e Plotly.
 
 #### **6. Monitoramento e Automação**
-- Use o Apache Airflow para orquestrar todo o pipeline, desde a coleta na API até o carregamento no data warehouse.
-- Configure alertas para monitorar falhas no pipeline ou atrasos na atualização dos dados.
+- Ao final do workflow vou criar uma malha para schedule de todo fluxo usando Apache Airflow para orquestrar todo o pipeline.
+- Vamos configurar alguns alertas para monitorar falhas no pipeline ou atrasos na atualização dos dados.
 
 
 ### **Ferramentas Utilizadas**
