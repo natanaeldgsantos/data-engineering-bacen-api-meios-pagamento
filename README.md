@@ -2,9 +2,9 @@
 
 **Será que a mudança no monitoramento do PIX vai reduzir a demanda?**
 
-Olá, me chamo Natanael Domingos seja bem vindo a mais um projeto de portólio em Engenharia de Dados.
+Olá, eu me chamo Natanael Domingos, seja bem vindo a mais um projeto de portólio em Engenharia de Dados.
 
-A alguns dias me deparei com a API de Pagamentos do Banco Central do Brasil, esta api retorna informações e estatísticaqs sobre:
+A alguns dias me deparei com a API de Pagamentos do Banco Central do Brasil, esta API retorna informações e estatísticaqs sobre:
 - Diferentes **tipos** de pagamentos no país.
 - A **Quantidade** de transações realizadas por cada tipo de pagamento.
 - O **Total de valores** movimentados consolidados por tipo de pagamento, mês ou trimestre.
@@ -13,18 +13,18 @@ Segue a documentação de referência desta API:
 - https://dadosabertos.bcb.gov.br/dataset/estatisticas-meios-pagamentos
 
 
-Decide utilizar este recurso como fonte de dados para este projeto, a minha intenção é desenvolver um novo **pipeline de dados** e depois realizar algumas análises. 
+Eu decide utilizar este recurso como fonte de dados para este projeto, a minha intenção é desenvolver um novo **pipeline de dados** e depois realizar algumas análises. 
 
 Acredito que este será um bom exemplo para ilustrar situações do dia a dia de um Engenheiro de dados. 
 
-Neste projeto vamos construir um ambiente distribuido do zero utilizando:
+Neste projeto irei construir um ambiente distribuido do zero utilizando:
 
-- Docker para levantar o ambiente local, algo que seja reproduzivel.
+- Containeres Docker através do docker-compose para levantar o ambiente local
 - MinIO, como nosso storage ou Delta Lakehouse
 - PySpark para processamento dos dados
 - Python e diversas bibliotecas open source para desenvolvimento.
 
-Com isso, poderemos criar um ambiente prático, open-source e reutilizável para um projeto que aborda um assunto atual e relevante para a economia brasileira.
+Com isso, poderemos criar um ambiente prático, open-source e reutilizável para um projeto que aborda um assunto atual e relevante sobre a economia no Brasil.
 
 Por motivo de simplicidade e controle de custos optei por utilizar um ambiente open-source, todavia, no futuro, pretendo explorar recursos de Cloud em outras versões deste mesmo projeto. Aguarde!
 
@@ -138,6 +138,7 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
   - **Camada Gold(Dados Curados)**
     - Aqui vamos otimizar, agrupando ou ajustando segundo regras de negócio.
     - O objetivo será otimizar os dados para a geração de relatórios, visualizações ou usuários finais.
+    - Antes de gravar neste camada vamos aproveitar e aplicar um fluxo de **Data Quality** utilizando o Great Expectations.
 
     Todo o fluxo de ingestão da Bronze para Silver pode ser acompanhado no notebook no seguinte caminho:
 

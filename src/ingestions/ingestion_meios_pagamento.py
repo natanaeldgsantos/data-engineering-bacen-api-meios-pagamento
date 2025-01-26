@@ -1,4 +1,4 @@
-""" Processo de Ingesta para camada Raw/Landing da API De Pagamento do Banco Central """
+""" Processo de Ingestão para camada Landing dos dados da API de Meios de Pagamento do Banco Central """
 
 import json
 import requests
@@ -13,7 +13,7 @@ from logs.logger import LoggerManager
 from storages import minio_storage
 
 
-# Vamos sempre usar o timezone do Brasil, já que é a api do Bacen, vamos manter o mesmo critério
+# Vamos sempre usar o timezone do Brasil, já que é a API do Bacen, vamos manter o mesmo critério
 brazil_timezone = pytz.timezone('America/Sao_Paulo')
 now_timestamp = datetime.now(brazil_timezone).strftime('%d_%m_%Y_%H_%M_%S')
 
@@ -70,6 +70,7 @@ def get_data_from_bacen(urll: str) -> dict:
 for resource in resources:
 
     print(f"* Processando recurso: {resource.get('name')}")
+    
     response_data = get_data_from_bacen(resource.get('url'))
 
     minio_storage.upload_file_to_bucket(
