@@ -1,4 +1,4 @@
-## **Pipeline de Dados e Análise dos Meios de Pagamento no Brasil**
+## **Pipeline de Dados para Análise dos Meios de Pagamento no Brasil**
 
 **Será que a mudança no monitoramento do PIX vai reduzir a demanda?**
 
@@ -22,19 +22,20 @@ Neste projeto irei construir um ambiente distribuido do zero utilizando:
 - Containeres Docker através do docker-compose para levantar o ambiente local
 - MinIO, como nosso storage ou Delta Lakehouse
 - PySpark para processamento dos dados
+- Great Expectations como ferramenta de Data Quality.
 - Python e diversas bibliotecas open source para desenvolvimento.
 
-Com isso, poderemos criar um ambiente prático, open-source e reutilizável para um projeto que aborda um assunto atual e relevante sobre a economia no Brasil.
+Com isso, teremos um ambiente prático, open-source e reutilizável para um projeto que aborda um assunto atual e relevante sobre a Economia no Brasil.
 
 Por motivo de simplicidade e controle de custos optei por utilizar um ambiente open-source, todavia, no futuro, pretendo explorar recursos de Cloud em outras versões deste mesmo projeto. Aguarde!
 
 ### **Objetivo Principal**
 Desenvolver um pipeline de dados automatizado para:
-01. Consumir informações da API de Estatísticas de Meios de Pagamento do Banco Central.
-02. Armazenar os dados em um Data Lake.
-03. Processar, Normalizar e disponbilizar os dados em um formato otimizado dentro de uma camada de consumo do nosso Data Lake com arquitetura Medalhão.
-04. Realizar o Consumo destas informações, já normalizadas e especializadas para o Négócio, realizando análises em um Data Warehouse ou SQL Engine.
-05. Explorar o Conjunto de dados, realizando análises e criando Dashboards para tomada de decisão.
+01. Consumir informações da API de Estatísticas de Meios de Pagamento do Banco Central (Python DLT)
+02. Armazenar os dados em um Data Lake. (MinIO)
+03. Processar, Normalizar e disponbilizar os dados em um formato otimizado dentro de uma camada de consumo do nosso Data Lake com arquitetura Medalhão. (Apache Spark)
+04. Realizar o Consumo destas informações, já normalizadas e especializadas para o Négócio, para realizar análises em um Data Warehouse ou SQL Engine. (DuckDB)
+05. Explorar o Conjunto de dados, realizando análises e criando Dashboards para tomada de decisão. (Jupypter notebook com Plotly)
 
 Enfim, como objetivo final pretendo identificar tendências no uso de diferentes meios de pagamento, como Pix, TED, boletos e cartões.
 
@@ -48,7 +49,7 @@ Enfim, como objetivo final pretendo identificar tendências no uso de diferentes
 
 #### **Configuração do Ambiente Local de Desenvolvimento**
 
-Para este projeto vou usar uma imagem personalizada do Docker com Docker-Compose, subindo um ambiente local mais prático e leve possível com:
+Para este projeto vou usar uma imagem personalizada do Docker com Docker-Compose, subindo um ambiente local prático e leve com:
 - Spark (PySpark) versão 3.5.*
 - Delta Lake
 - Bibliotecas de integração com AWS e storage como MinIO
@@ -106,7 +107,7 @@ Para processamento distribuido dos dados entre as camadas do nosso Delta Lake va
 Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mais uma camada, a Landing. A seguir explicarei cada parte.
 
   - **Camada Landing(Área de pouso para alguns casos, Histórico As-Is em outros Casos)**
-    - Optei por adicionar a camada Landing em nosso projeto para realização do pouso e gravação dos dados no seu formato original ('as-is'), exatamente como foram recebidos das fontes. Para alguns cenários, em algumas empresas, a Landing pode ser algo redundante e só aumentar os custos, entretanto, neste projeto, decidi implementá-la visando aplicar um formato padronizado (Delta) já à partir da camada Bronze.
+    - Optei por adicionar a camada Landing em nosso projeto para realização do pouso e gravação dos dados no seu formato original ('as-is'), exatamente como foram recebidos das fontes. Para alguns cenários, em algumas empresas, a Landing pode ser algo redundante e só aumentar os custos, entretanto, neste projeto, decidi implementá-la visando aplicar um formato padronizado (Delta) já a partir da camada Bronze.
 
     Todo o fluxo de ingestão da API do Banco central para camada landing pode ser acompanhado no seguinte script:
     
