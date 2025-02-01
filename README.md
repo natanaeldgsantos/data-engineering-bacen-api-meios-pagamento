@@ -122,7 +122,13 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
       - Otimiza o consumo ou leitura de dados ainda na origem, já que Delta é muito mais performático do que qualquer outro formato simples.
 
     Todo o fluxo de ingestão da landing para a Bronze pode ser acompanhado no notebook no seguinte caminho:
+
+    *Propotipação Notebook da ingestão:*
+
+    [**```./notebooks/data_source/prototipe_consumer_api_pagamentos.ipynb```**]("./notebooks/data_source/prototipe_consumer_api_pagamentos.ipynb")
     
+    *Script final do processo de ingestão:*
+
     <a href="./notebooks/landing2bronze.ipynb" target="_blank">**```./notebooks/landing2bronze.ipynb```**</a>
   
   - **Camada Silver(Dados Refinados)**
@@ -143,6 +149,12 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
 
     Todo o fluxo de ingestão da Bronze para Silver pode ser acompanhado no notebook no seguinte caminho:
 
+    *Data Quality- Silver Table Validation:*
+
+    [**```./notebooks/dq_silver_pagamentos_trimestrais.ipynb```**]("./notebooks/dq_silver_pagamentos_trimestrais.ipynb")
+
+    *Fluxo Silver para Gold (em desenvolvimento):*
+    
     <a href="./notebooks/silver2gold.ipynb" target="_blank">**```./notebooks/silver2gold.ipynb```**</a>
 
 #### **4. Carregamento no Data Warehouse Open Source**
