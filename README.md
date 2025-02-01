@@ -125,7 +125,7 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
 
     *Propotipação Notebook da ingestão:*
 
-    [**```./notebooks/data_source/prototipe_consumer_api_pagamentos.ipynb```**]("./notebooks/data_source/prototipe_consumer_api_pagamentos.ipynb")
+    [**```./notebooks/data_source/prototipe_consumer_api_pagamentos.ipynb```**](./notebooks/data_source/prototipe_consumer_api_pagamentos.ipynb)
     
     *Script final do processo de ingestão:*
 
@@ -151,7 +151,7 @@ Neste projeto vamos replicar uma **arquitetura Medalhão** com a adição de mai
 
     *Data Quality- Silver Table Validation:*
 
-    [**```./notebooks/dq_silver_pagamentos_trimestrais.ipynb```**]("./notebooks/dq_silver_pagamentos_trimestrais.ipynb")
+    [**```./notebooks/dq_silver_pagamentos_trimestrais.ipynb```**](./notebooks/dq_silver_pagamentos_trimestrais.ipynb)
 
     *Fluxo Silver para Gold (em desenvolvimento):*
     
